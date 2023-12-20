@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-6gk8^(g3*rxzh$ybs17g@8%j9vgi%=pkh%qhzuk7m7bhiuh$%b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
@@ -119,8 +119,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'educapro_bd',
-        'USER': 'root',
-        'PASSWORD': '',
+        'USER': 'administrador',
+        'PASSWORD': 'admin1981',
+        'HOST': 'educaprobd.cw0xz6hrnovy.us-east-1.rds.amazonaws.com'
     
     }
 }
