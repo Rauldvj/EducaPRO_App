@@ -12,9 +12,10 @@
     {% load tailwind_filters %}
     
     <body class="bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-200 via-purple-300 to-purple-500">
+        
         <form action="" method="post" class="EstudianteForm max-w-4xl  ml-80" id="EstudianteForm" enctype="multipart/form-data" >
             {% csrf_token %}
-    
+            
             <!-- Nivel Académico y Curso -->
             <div class="flex flex-wrap -mx-2 mb-2 mt-2">
                 <div class="w-1/4 px-2">

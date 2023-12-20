@@ -4,16 +4,18 @@ from django.db.models.signals import post_save
 from .models import Profile
 
 @receiver(post_save, sender=Profile)
-def add_user_to_students_group(sender, instance, created, **kwargs):
+def add_user_to_funcionarios_group(sender, instance, created, **kwargs):
     if created:
         try:
-            funcionarios = Group.objects.get(name='Funcionarios')
+            group1 = Group.objects.get(name='Funcionarios')
         except Group.DoesNotExist:
-            funcionarios = Group.objects.create(name='Administradores')
-            funcionarios = Group.objects.create(name='Funcionarios')
-            funcionarios = Group.objects.create(name='Coordinador')
-            funcionarios = Group.objects.create(name='Psicopedagógo')
-            funcionarios = Group.objects.create(name='Psicólogo')
-            funcionarios = Group.objects.create(name='Terapeuta Ocupacional')
-            funcionarios = Group.objects.create(name='Fonoaudiologo')
-        instance.user.groups.add(funcionarios)
+            group1 = Group.objects.create(name='Funcionarios')
+            group2 = Group.objects.create(name='Administradores')
+            group3 = Group.objects.create(name='Coordinadores')
+            group4 = Group.objects.create(name='Psicopedagógos')
+            group5 = Group.objects.create(name='Psicólogos')
+            group6 = Group.objects.create(name='Terapeutas Ocupacionales')
+            group7 = Group.objects.create(name='Fonoaudiologos')
+            group8 = Group.objects.create(name='Técnicos Diferenciales')
+            group9 = Group.objects.create(name='Técnicos Parvularios')
+        instance.user.groups.add(group1)

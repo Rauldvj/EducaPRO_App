@@ -23,7 +23,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
-  
   <body>
     <div class="header">{% block header %} {% endblock %}</div>
 
@@ -33,19 +32,42 @@
     
     <div class="contenido">{% block content %} {% endblock content %}</div>
 
-    <div class="imagen">{% block img%} {% endblock %}</div>
+    <div class="imagen">{% block img %} {% endblock %}</div>
 
     <div class="footer">{% block footer %} {% endblock %}</div>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {% if messages %} {% for m in messages %}
-    <script>
-      Swal.fire({
-        title: "¡Excelente!",
-        text: "{{m}}",
-        icon: "success",
-      });
-    </script>
-    {% endfor%} {% endif %} {% block js %} {% endblock %}
+
+    {% if messages %}
+      {% for message in messages %}
+        {% if message.tags == 'success' %}
+          <script>
+            Swal.fire({
+              title: "¡Excelente!",
+              text: "{{ message }}",
+              icon: "success",
+            });
+          </script>
+        {% elif message.tags == 'error' %}
+          <script>
+            Swal.fire({
+              title: "Error",
+              text: "{{ message }}",
+              icon: "error",
+            });
+          </script>
+        {% elif message.tags == 'warning' %}
+          <script>
+            Swal.fire({
+              title: "Advertencia",
+              text: "{{ message }}",
+              icon: "warning",
+            });
+          </script>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    {% block js %} {% endblock %}
   </body>
 </html>

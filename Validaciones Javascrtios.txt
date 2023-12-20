@@ -1,0 +1,16 @@
+VALIDACIONES PARA MESES O QUE USEN VALORES MINIMOS O MAXIMOS:
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var mesesInput = document.getElementById('id_meses');  // Reemplaza 'id_meses' con el ID real de tu campo de entrada
+
+        mesesInput.addEventListener('change', function() {
+            var valor = parseInt(mesesInput.value);
+
+            if (isNaN(valor) || valor < 1 || valor > 12) {
+                alert('Por favor, seleccione un valor entre 1 y 12.');
+                mesesInput.value = '';  // Puedes elegir manejar esto de otra manera según tus necesidades
+            }
+        });
+    });
+</script>

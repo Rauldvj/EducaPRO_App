@@ -1,0 +1,31 @@
+<!-- Ejemplo en un template (por ejemplo, 'index.html') -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mi Página</title>
+</head>
+<body>
+    <h1>Bienvenido, {{ user.username }}!</h1>
+
+    {% if group_name == 'Administradores' %}
+        <!-- Este contenido solo es visible para administradores. -->
+    {% elif group_name == 'Coordinador' %}
+        <!-- Este contenido solo es visible para coordinadores. -->
+    {% elif group_name == 'Fonoaudiologo' %}
+        <!-- Este contenido solo es visible para fonoaudiólogos. -->
+    {% elif group_name == 'Funcionarios' %}
+        <!-- Este contenido solo es visible para funcionarios. -->
+    {% elif group_name == 'Psicólogo' %}
+        <!-- Este contenido solo es visible para psicólogos. -->
+    {% elif group_name == 'Psicopedagógo' %}
+        <!-- Este contenido solo es visible para psicopedagogos. -->
+    {% elif group_name == 'Técnico Diferencial' %}
+        <!-- Este contenido solo es visible para técnicos diferenciales. -->
+    {% elif group_name == 'Técnico Parvulario' %}
+        <!-- Este contenido solo es visible para técnicos parvularios. -->
+    {% elif group_name == 'Terapeuta Ocupacional' %}
+        <!-- Este contenido solo es visible para terapeutas ocupacionales. -->
+    {% endif %}
+</body>
+</html>
+npm i @preline/overlay

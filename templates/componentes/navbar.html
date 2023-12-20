@@ -1,10 +1,40 @@
+<!-- templates\componentes\navbar.html
+#DECORADORES PARA QUE DIFERENCIA EL GRUPO QUE EL USUARIO PERTENECE -->
+{% if user.is_authenticated %}
+    {% if group_name_singular == 'Funcionario' %}
+        <nav class="bg-zinc-950 h-16 flex items-center justify-between flex-wrap">
+    {% elif group_name_singular == 'Administrador' %}
+        <nav class="border-neutral-100 bg-gradient-to-tr from-gray-600 to-gray-900 h-16 flex items-center justify-between flex-wrap">
+    {% elif group_name_singular == 'Coordinador' %}
+        <nav class="bg-gradient-to-tr from-lime-600 to-lime-900 h-16 flex items-center justify-between flex-wrap">
+    {% elif group_name_singular == 'Fonoaudiologo' %}
+        <nav class="border-b border-neutral-100 bg-gradient-to-tr from-amber-600 to-amber-900 h-16 flex items-center justify-between flex-wrap">
+    {% elif group_name_singular == 'Psicólogo' %}
+        <nav class="border-b border-neutral-100 bg-gradient-to-tr from-indigo-600 to-indigo-900 h-16 flex items-center justify-between flex-wrap">
+    {% elif group_name_singular == 'Psicopedagógo' %}
+        <nav class="border-b border-neutral-100 bg-gradient-to-tr from-purple-600 to-purple-900 h-16 flex items-center justify-between flex-wrap">
+    {% elif group_name_singular == 'Técnico Diferencial' %}
+        <nav class="bg-gradient-to-tr from-pink-600 to-pink-900 h-16 flex items-center justify-between flex-wrap">
+    {% elif group_name_singular == 'Técnico Parvulario' %}
+        <nav class="bg-gradient-to-tr from-green-600 to-green-900 h-16 flex items-center justify-between flex-wrap">
+    {% elif group_name_singular == 'Terapeuta Ocupacional' %}
+        <nav class="bg-gradient-to-tr from-red-600 to-red-900h-16 flex items-center justify-between flex-wrap">
+    {% endif %}
+{% else %}
+
+    <nav class="h-16 flex items-center justify-between flex-wrap">
+{% endif %}
+
  <!-- Navegación Superior -->
- <nav class="bg-gradient-to-r from-violet-900 via-violet-700 to-violet-500 p-2 flex w-full items-center justify-between">
-    <div>
-      <h1 class="text-white text-xl font-semibold">EDUCAPRO</h1>
+    <div class="flex ">
+      <h1 class="text-white text-xl ml-2 font-semibold">EDUCAPRO</h1>
     </div>
-    <div class="flex items-center space-x-4">
-      <span class="text-white">Bienvenido</span>
-      <i class="fas fa-user-circle text-white text-2xl"></i>
+    <div class="flex space-x-4 px-4">
+      <span class="text-white text-md italic">En línea: {{ user.first_name }} {{user.last_name}}</span>
+      <img class="mx-auto w-9 h-9 rounded-full " src="{{ user.profile.image.url }}" alt="{{ user.username }}">
     </div>
   </nav>
+  
+
+
+  

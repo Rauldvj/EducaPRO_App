@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+
+{% load tailwind_filters %}
+<body class="bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-amber-900 to-yellow-300">
+    
+    {% include 'componentes/navbar.html' %}  
+
+<div class="contenido">
+        <!-- Agrega este fragmento para depurar -->
+
+
+    <!-- Contenedor principal -->
+    <div class="container mb-2">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Tarjeta de datos de perfil -->
+            <div class="bg-gradient-to-r from-sky-900 to-cyan-700 p-3 mb-3">
+                <!-- Imagen de perfil -->
+                <img class="mx-auto w-24 h-24 rounded-full mb-3" src="{{ user.profile.image.url }}" alt="{{ user.username }}">
+                <!-- Nombre y apellido del usuario -->
+                <h2 class="text-xl font-bold text-white">{{ user.first_name }}</h2>
+                <h2 class="text-md font-bold text-white">{{ user.last_name}}</h2>
+                <h2 class="text-sm font-bold italic text-white">{{ group_name_singular | capfirst }}</h2>
+                <!-- Grupo al que pertenece el usuario -->
+                <hr class="my-3">
+                <!-- Datos personales del usuario -->
+                <p class="text-white text-sm"><strong>Rut: </strong>{{ user.profile.rut }}</p>
+                <p class="text-white text-sm"><strong>Dirección: </strong>{{ user.profile.direccion }}</p>
+                <p class="text-white text-sm"><strong>Región: </strong>{{ user.profile.region}} </p>
+                <p class="text-white text-sm"><strong>Comuna: </strong>{{ user.profile.comuna}} </p>
+                <p class="text-white text-sm"><strong>Teléfono: </strong>{{ user.profile.telefono }}</p>
+                <p class="text-white text-sm"><strong>Email: </strong>{{ user.email }}</p>
+                <hr class="my-3">
+                <!-- Botones de acciones -->
+                <!-- {% if request.user.username == 'admin' %}
+                    <a href="{% url 'admin:index' %}" class="bg-yellow-500 hover:bg-yellow-600 text-white w-full mb-1 py-2 px-4 rounded">Ir al Admin</a>
+                {% endif %} -->
+                <div class="flex flex-col items-stretch text-center">
+                    <!-- Botón Cambiar Contraseña -->
+                    <a href="{% url 'profile_password_change' %}" class="bg-yellow-800 hover:bg-yellow-600 text-white mb-2 py-2 px-2 rounded block w-full ">Cambiar Contraseña</a><hr>
+                    <!-- Botón Editar Perfil -->
+                    <button onclick="document.getElementById('editarPerfil').showModal()" id="btn" 
+                    class="py-2 px-4 mt-2 bg-purple-800 hover:bg-purple-400 text-white rounded text shadow-xl block w-full">Editar Perfil</button>
+                    <!-- Botón Home -->
+                    <a href="{% url 'home' %}" class="bg-red-500 hover:bg-red-600 text-white mt-1 py-2 px-4 rounded block w-full">Home</a>
+                </div>
+            </div>
+            <div class="lg:col-span-3 :col-span-3">
+                <div class=" rounded mt-5 ">
+                    <!-- Evaluar grupo al que pertenece el usuario -->
+                    {% if group_name_singular == 'Funcionario' %}
+                        {% include 'perfiles/funcionarios.html' %}
+                    {% elif group_name_singular == 'Administrador' %}
+                        {% include 'perfiles/administradores.html' %}
+                    {% elif group_name_singular == 'Coordinador' %}
+                        {% include 'perfiles/coordinador.html' %}
+                    {% elif group_name_singular == 'Psicopedagógo' %}
+                        {% include 'perfiles/psicopedagogo.html' %}
+                    {% elif group_name_singular == 'Psicólogo' %}
+                        {% include 'perfiles/psicologo.html' %}
+                    {% elif group_name_singular == 'Terapeuta Ocupacional' %}
+                        {% include 'perfiles/terapeutaocu.html' %}
+                    {% elif group_name_singular == 'Fonoaudiologo' %}
+                        {% include 'perfiles/fonoaudiologo.html' %}
+                    {% elif group_name_singular == 'Técnico Diferencial' %}
+                        {% include 'perfiles/tecnicodiferen.html' %}
+                    {% elif group_name_singular == 'Técnico Parvulario' %}
+                        {% include 'perfiles/tecnicoparvulo.html' %}
+                    {% endif %}
+                </div>
+        </div>
+    </div>
+
+    
+
+    <!-- Modal centrado verticalmente -->
+    <dialog id="editarPerfil" class="h-auto w-1/3 p-1 rounded-md bg-[conic-gradient(at_bottom_left,_var(--tw-gradient-stops))] from-amber-900 to-yellow-300">
+        <div class="flex flex-col w-full h-auto">
+            <!-- Header -->
+            <h2 class="flex w-full h-auto justify-center items-center text-xl font-bold text-white">Editar Perfil</h2>
+            <hr>
+            <div class="flex w-full h-auto justify-center items-center">
+                <div class="flex w-10/12 h-auto py-3 justify-center items-center ">
+                    <img class="mx-auto w-20 h-20 justify-center items-center rounded-full " src="{{ user.profile.image.url }}" alt="{{ user.username }}">
+                </div>
+            </div>
+            <!-- Modal Content-->
+            <div class="flex w-full h-auto py-0 px-2 justify-center items-center rounded text-center text-gray-500">
+                <form action="" method="post" id="profile_form" class="" enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+                    <div class="mb-0 flex space-x-0">
+                        <div class="flex flex-col mt-0">
+                            <label for="image" class="text-start text-sm font-bold text-white">Foto Perfil</label>
+                            <input type="file" name="image" id="{{ profile_form.image.id_for_label }}" value="{{ user.profile.image }}" class="p-1 border border-gray-300 rounded-sm h-10 w-full">
+                        </div>
+                    </div>
+
+                    <!-- ----FILA 2--- -->
+                    <div class="mb-2 flex space-x-1">
+                        <div class="flex flex-col">
+                            <label for="rut" class="text-start text-sm font-bold text-white">Rut</label>
+                            <input type="text" name="rut" id="{{ profile_form.rut.id_for_label }}" value="{{ user.profile.rut }}" class="p-1 border border-gray-300 rounded-sm w-40 h-7">
+                        </div>
+                    </div>
+                    <div class="mb-2 flex space-x-2">
+                        <div class="flex flex-col">
+                            <label for="first_name" class="text-start text-sm font-bold text-white">Nombres</label>
+                            <input type="text" name="first_name" id="{{ user_form.first_name.id_for_label }}" value="{{ user.first_name }}" class="p-1 border border-gray-300 rounded- h-7 w-full">
+                        </div>
+                        <div class="flex flex-col">
+                            <label for="last_name" class="text-start text-sm font-bold text-white">Apellidos</label>
+                            <input type="text" name="last_name" id="{{ user_form.last_name.id_for_label }}" value="{{ user.last_name }}" class="p-1 border border-gray-300 rounded-sm h-7 w-full">
+                        </div>
+                    </div>
+
+                    <!-- ----FILA 3 ---- -->
+                    
+                    <div class="mb-2 flex space-x-2">
+                        <div class="flex flex-col">
+                            <label for="direccion" class="text-start text-sm font-bold text-white">Dirección</label>
+                            <input type="text" name="direccion" id="{{ profile_form.direccion.id_for_label }}" value="{{ user.profile.direccion }}" class="p-1 border border-gray-300 rounded-sm w-72 h-7">
+                        </div>
+                    </div>
+                    <div class="mb-2 flex space-x-4">
+                        <div class="flex flex-col">
+                            <label for="telefono" class="text-start text-sm font-bold text-white">Teléfono: +569</label>
+                            <input type="text" maxlength="8" name="telefono" id="{{ profile_form.telefono.id_for_label }}" value="{{ user.profile.telefono }}" class="p-1 border border-gray-300 rounded-sm h-7 w-36">
+                        </div>
+                        <div class="flex flex-col">
+                            <label for="email" class="text-start text-sm font-bold text-white">Correo</label>
+                            <input type="email" name="email" id="{{ user_form.email.id_for_label }}" value="{{ user.email }}" class="p-1 border border-gray-300 rounded-sm h-7 w-56">
+                        </div>
+                    </div>
+                <!-- ----FILA 4----- -->
+
+                <div class="flex space-x-2">
+                    <div class="mb-2 flex flex-col">
+                        <label for="region" class="text-start text-sm font-bold text-white">Región</label>
+                        <select name="region" id="region" class="border border-gray-300 rounded-sm w-40 h-7 text-black">
+                            {% for region in profile_form.fields.region.choices %}
+                                <option value="{{ region.0 }}" {% if region.0 == profile_form.instance.region.id %}selected{% endif %}>
+                                    {{ region.1 }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                
+                    <div class="mb-2 flex flex-col">
+                        <label for="comuna" class="text-start text-sm font-bold text-white">Comuna</label>
+                        <select name="comuna" id="comuna" class="border border-gray-300 rounded-sm w-40 h-7 text-black">
+                            {% for comuna in profile_form.fields.comuna.choices %}
+                                <option value="{{ comuna.0 }}" {% if comuna.0 == profile_form.instance.comuna.id %}selected{% endif %}>
+                                    {{ comuna.1 }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            
+                    <div class="modal-footer flex justify-end mt-3">
+                        <button type="button" class="bg-cyan-800 hover:bg-cyan-600 text-white py-1 px-4 mr-5 rounded" onclick="document.getElementById('editarPerfil').close()">Cerrar</button>
+                        <button type="submit" class="bg-red-800 hover:bg-red-600 text-white py-1 px-4 rounded">Guardar cambios</button>
+                    </div>
+                </form>
+                {{ mensaje }}
+            </div>
+            <!-- End of Modal Content-->
+        </div>
+    </dialog>
+
+    <!-- -----MODAL CONTRASEÑA------- -->
+
+
+
+
+
+    <!-- Estilos personalizados del Modal -->
+    <style>
+        dialog[open] {
+            animation: appear 0.3s cubic-bezier(0, 1.8, 1, 1);
+        }
+
+        dialog::backdrop {
+            background: linear-gradient(45deg, rgba(0, 0, 0, 0.5), rgba(54, 54, 54, 0.5));
+            backdrop-filter: blur(3px);
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</body>
+
+{% endblock content %}
+
